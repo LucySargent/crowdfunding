@@ -1,14 +1,15 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer
+from .models import Beefriend, Project, Pledge
+from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, BeefriendSerializer
 from django.http import Http404
 from rest_framework import status
 
-# Create your views here.
+# for /projects
 class ProjectList(APIView):
-# for GET/projects
+
+    # for GET /projects
     def get(self, request):
         #get all the projects
         projects = Project.objects.all()
@@ -17,10 +18,15 @@ class ProjectList(APIView):
         #send all the serialized projects back in response body
         return Response(serializer.data)
 
+# for POST /projects/
     def post(self, request):
+         # try to create a serializer from the data in the request body
         serializer = ProjectSerializer(data=request.data)
+        # if the serializer thinks it's valid
         if serializer.is_valid():
+            # save the object
             serializer.save()
+            # send the serialized (saved) data back in response body
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -29,9 +35,11 @@ class ProjectList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-#for /projects/<pk>
+
+# for /projects/<pk>
 class ProjectDetail(APIView):
-#for GET /projects/<pk>  
+    
+    # for GET /projects/<pk>
     def get_object(self, pk):
         try:
             return Project.objects.get(pk=pk)
@@ -43,14 +51,42 @@ class ProjectDetail(APIView):
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
 
+
+# for /pledges/
 class PledgeList(APIView):
+
+    # GET /pledges/
     def get(self, request):
             pledges = Pledge.objects.all()
             serializer = PledgeSerializer(pledges, many=True)
             return Response(serializer.data)
 
+    # POST /pledges/
     def post(self, request):
         serializer = PledgeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+# for /beefriends/
+class BeefriendList(APIView):
+
+    # GET /adoptions/
+    def get(self, request):
+            adopts = Beefriend.objects.all()
+            serializer = BeefriendSerializer(adopts, many=True)
+            return Response(serializer.data)
+
+    # POST /adoptions/
+    def post(self, request):
+        serializer = BeefriendSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(

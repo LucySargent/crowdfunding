@@ -10,6 +10,7 @@ class Project(models.Model):
     date_created = models.DateTimeField()
     owner = models.CharField(max_length=200)
 
+
 class Pledge(models.Model):
     amount = models.IntegerField()
     comment = models.CharField(max_length=200)
@@ -21,3 +22,12 @@ class Pledge(models.Model):
         )
     supporter = models.CharField(max_length=200)
     
+
+class Beefriend(models.Model):
+    comment = models.CharField(max_length=200)
+    project = models.ForeignKey(
+        'Project',
+        on_delete=models.CASCADE,
+        related_name='adoptions'
+        )
+    supporter = models.CharField(max_length=200)
