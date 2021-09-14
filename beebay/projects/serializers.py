@@ -20,9 +20,11 @@ class ProjectSerializer(serializers.Serializer):
     description = serializers.CharField(max_length=None)
     goal = serializers.IntegerField()
     image = serializers.URLField()
+    suburb = serializers.CharField(max_length=200)
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
     owner = serializers.CharField(max_length=200)
+    
 # leaving the pledges out of list view so that we don't have to get 
 # all of the pledges and all of the projects in one go
 # pledges = PledgeSerializer(many=True, read_only=True)

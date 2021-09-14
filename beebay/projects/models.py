@@ -9,6 +9,15 @@ class Project(models.Model):
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
     owner = models.CharField(max_length=200)
+    suburb_choices = [
+        (1, 'Anstead'),
+        (2, 'Pullenvale'),
+        (3, 'Kenmore'),
+    ]
+    suburb = models.CharField(
+        max_length=2,
+        choices=suburb_choices,
+    )
 
 
 class Pledge(models.Model):
