@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 # Create your models here.
@@ -8,15 +9,20 @@ class Project(models.Model):
     image = models.URLField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
-    owner = models.CharField(max_length=200)
-    suburb_choices = [
-        (1, 'Anstead'),
-        (2, 'Pullenvale'),
-        (3, 'Kenmore'),
-    ]
-    suburb = models.CharField(
-        max_length=2,
-        choices=suburb_choices,
+    # owner = models.CharField(max_length=200)
+    # suburb_choices = [
+    #     (1, 'Anstead'),
+    #     (2, 'Pullenvale'),
+    #     (3, 'Kenmore'),
+    # ]
+    # suburb = models.CharField(
+    #     max_length=2,
+    #     choices=suburb_choices,
+    # )
+    owner = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='owner_projects',
     )
 
 
@@ -29,7 +35,12 @@ class Pledge(models.Model):
         on_delete=models.CASCADE,
         related_name='pledges'
         )
-    supporter = models.CharField(max_length=200)
+    # supporter = models.CharField(max_length=200)
+    supporter = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='supporter_pledges'
+    )
     
 
 class Beefriend(models.Model):
