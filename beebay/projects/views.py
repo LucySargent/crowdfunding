@@ -9,6 +9,7 @@ from .permissions import IsOwnerOrReadOnly
 
 # for /projects
 class ProjectList(APIView):
+    #removes the post button from /projects
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 # for GET /projects
@@ -42,9 +43,9 @@ class ProjectList(APIView):
 class ProjectDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly 
+        IsOwnerOrReadOnly
     ]
-     
+# helper method to get the object with the pk    
     # for GET /projects/<pk>
     def get_object(self, pk):
         try:
@@ -70,6 +71,7 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
+        return Response(serializer.data)
 
 
 # for /pledges/
@@ -85,7 +87,7 @@ class PledgeList(APIView):
     def post(self, request):
         serializer = PledgeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(supporter=request.user)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -108,7 +110,7 @@ class BeefriendList(APIView):
     def post(self, request):
         serializer = BeefriendSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(beefriender=request.user)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED

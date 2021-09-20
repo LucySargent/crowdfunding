@@ -6,7 +6,8 @@ class PledgeSerializer(serializers.Serializer):
     amount = serializers.IntegerField()
     comment = serializers.CharField(max_length=200)
     anonymous = serializers.BooleanField()
-    supporter = serializers.CharField(max_length=200)
+    # supporter = serializers.CharField(max_length=200)
+    supporter = serializers.ReadOnlyField(source='supporter.id')
     project_id = serializers.IntegerField()
 
     # this will be called for POST /pledges to create a new pledge
@@ -18,14 +19,14 @@ class ProjectSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     title = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=None)
-    goal = serializers.IntegerField()
+    beehives = serializers.IntegerField()
     image = serializers.URLField()
-    # suburb = serializers.CharField(max_length=200)
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    # owner = serializers.CharField(max_length=200)
     owner = serializers.ReadOnlyField(source='owner.id')
-    
+    # min_required = serializers.ReadOnlyField()
+    goal = serializers.ReadOnlyField()
+ 
 # leaving the pledges out of list view so that we don't have to get 
 # all of the pledges and all of the projects in one go
 # pledges = PledgeSerializer(many=True, read_only=True)
@@ -38,8 +39,10 @@ class ProjectSerializer(serializers.Serializer):
 class BeefriendSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     comment = serializers.CharField(max_length=200)
-    supporter = serializers.CharField(max_length=200)
+    # supporter = serializers.CharField(max_length=200)
     project_id = serializers.IntegerField()
+    beefriender = serializers.ReadOnlyField(source='beefriender.id')
+    
 
     # this will be called for POST /adopt/ to create a new pledge
     def create(self, validated_data):
@@ -52,7 +55,7 @@ class ProjectDetailSerializer(ProjectSerializer):
 # provide pledges when updating a project)
     pledges = PledgeSerializer(many=True, read_only=True)
     adoptions = BeefriendSerializer(many=True, read_only=True)
-
+    #PUT Request
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title',instance.title)
         instance.description = validated_data.get('description',instance.description)

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,7 +10,7 @@ class CustomUserList(APIView):
 
     def get(self, request):
         users = CustomUser.objects.all()
-        serializer = CustomUserSerializer(users, many=True)
+        serializer = CustomUserSerializer(users, many=True) #explicity stating the relationship
         return Response(serializer.data)
 
     def post(self, request):
