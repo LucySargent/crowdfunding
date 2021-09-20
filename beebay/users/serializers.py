@@ -9,3 +9,10 @@ class CustomUserSerializer(serializers.Serializer):
     def create(self, validated_data):
         return CustomUser.objects.create(**validated_data)
 
+# new code for updating user details - name,email    
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username',instance.username)
+        instance.email = validated_data.get('email',instance.email)
+        # instance.password = validated_data.get('password',instance.password)
+        instance.save()
+        return instance

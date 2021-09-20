@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Beefriend, Project, Pledge
-from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, BeefriendSerializer
+from .models import SUB_CHOICES, Beefriend, Project, Pledge
+from .serializers import ProjectSerializer, ProjectDetailSerializer, PledgeSerializer, PledgeDetailSerializer, BeefriendSerializer, BeefriendDetailSerializer
 from django.http import Http404
 from rest_framework import status, permissions
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view
 
 # for /projects
 class ProjectList(APIView):
-    #removes the post button from /projects
+    # this make it so that a user must be logged in to post a project (iow removes the post button from /projects list)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 # for GET /projects
@@ -61,6 +62,7 @@ class ProjectDetail(APIView):
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
 
+# update /project/<pk>
     def put(self, request, pk):
         project = self.get_object(pk)
         data = request.data
@@ -73,17 +75,23 @@ class ProjectDetail(APIView):
             serializer.save()
         return Response(serializer.data)
 
+# delete project
+    def delete(self, request, pk):
+        project = self.get_object(pk)
+        project.delete()
+        return Response(dict(message= 'Project deleted!'))
+
 
 # for /pledges/
 class PledgeList(APIView):
 
-    # GET /pledges/
+# GET /pledges/
     def get(self, request):
             pledges = Pledge.objects.all()
             serializer = PledgeSerializer(pledges, many=True)
             return Response(serializer.data)
 
-    # POST /pledges/
+# POST /pledges/
     def post(self, request):
         serializer = PledgeSerializer(data=request.data)
         if serializer.is_valid():
@@ -97,6 +105,46 @@ class PledgeList(APIView):
             status=status.HTTP_400_BAD_REQUEST
         )
 
+# for /pledges/<pk>
+class PledgeDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly
+    ]
+   
+# for GET /pledges/<pk>
+    def get_object(self, pk):
+        try:
+            pledge = Pledge.objects.get(pk=pk)
+            self.check_object_permissions(self.request, pledge)
+            return pledge
+        except Pledge.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        pledge = self.get_object(pk)
+        serializer = PledgeSerializer(pledge)
+        return Response(serializer.data)
+
+# update /pledges/<pk>  
+    def put(self, request, pk):
+        pledge = self.get_object(pk)
+        data = request.data
+        serializer = PledgeDetailSerializer(
+            instance=pledge,
+            data=request.data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+# delete /pledges/<pk>
+    def delete(self, request, pk):
+        pledge = self.get_object(pk)
+        pledge.delete()
+        return Response(dict(message= 'Pledge deleted!'))
+
 # for /beefriends/
 class BeefriendList(APIView):
 
@@ -106,7 +154,7 @@ class BeefriendList(APIView):
             serializer = BeefriendSerializer(adopts, many=True)
             return Response(serializer.data)
 
-    # POST /adoptions/
+    # POST /beefriends/
     def post(self, request):
         serializer = BeefriendSerializer(data=request.data)
         if serializer.is_valid():
@@ -119,3 +167,44 @@ class BeefriendList(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+# for /beefriends/<pk>
+class BeefriendDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            beefriend = Beefriend.objects.get(pk=pk)
+            self.check_object_permissions(self.request, beefriend)
+            return beefriend
+        except Pledge.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        beefriend = self.get_object(pk)
+        serializer = BeefriendSerializer(beefriend)
+        return Response(serializer.data)
+
+# update /beefriends/<pk>  
+    def put(self, request, pk):
+        beefriend = self.get_object(pk)
+        data = request.data
+        serializer = BeefriendDetailSerializer(
+            instance=beefriend,
+            data=request.data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+# delete /beefriends/<pk>
+    def delete(self, request, pk):
+        beefriend = self.get_object(pk)
+        beefriend.delete()
+        return Response(dict(message= 'You are no longer a Beefriend on this project.'))   
+
+@api_view(['GET'])
+def get_all_suburbs(request):
+    suburbs = []
+    for i in SUB_CHOICES:
+        suburbs.append(i[0])
+    return Response(suburbs)

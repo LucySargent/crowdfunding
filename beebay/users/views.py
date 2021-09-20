@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from django.http import Http404
+from rest_framework import status, permissions
+
 
 # Create your views here.
 class CustomUserList(APIView):
@@ -20,7 +23,12 @@ class CustomUserList(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+
 class CustomUserDetail(APIView):
+### DO I NEED THIS?
+    # permission_classes = [
+    #     permissions.IsAuthenticatedOrReadOnly,
+    # ]
 
     def get_object(self, pk):
         try:
@@ -32,3 +40,25 @@ class CustomUserDetail(APIView):
         user = self.get_object(pk)
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
+
+#new code for updating user details - name,email   
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = CustomUserSerializer(
+            instance=user,
+            data=request.data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+    def delete(self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        # return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail": "User deleted"})
+
+    
+
+    # {"detail": "User deleted"}
