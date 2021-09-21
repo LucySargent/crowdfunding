@@ -79,9 +79,9 @@ class Beefriend(models.Model):
     project = models.ForeignKey(
         'Project',
         on_delete=models.CASCADE,
-        related_name='adoptions'
+        related_name='beefriend'
         )
-    beefriender = models.ForeignKey(
+    beefriend = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='befriender'

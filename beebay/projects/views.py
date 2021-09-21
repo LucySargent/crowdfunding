@@ -5,7 +5,7 @@ from .models import SUB_CHOICES, Beefriend, Project, Pledge
 from .serializers import ProjectSerializer, ProjectDetailSerializer, PledgeSerializer, PledgeDetailSerializer, BeefriendSerializer, BeefriendDetailSerializer
 from django.http import Http404
 from rest_framework import status, permissions
-from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly, IsBeefriendOrReadOnly
 from rest_framework.decorators import api_view
 
 # for /projects
@@ -160,17 +160,21 @@ class PledgeDetail(APIView):
 # for /beefriends/
 class BeefriendList(APIView):
 
-    # GET /adoptions/
+# GET /beefriends/
     def get(self, request):
-            adopts = Beefriend.objects.all()
-            serializer = BeefriendSerializer(adopts, many=True)
-            return Response(serializer.data)
+        if self.request.user.is_superuser:
+            beefriend = Beefriend.objects.all()
+        else:
+            beefriend = Beefriend.objects.filter(beefriend=self.request.user)
+
+        serializer = BeefriendSerializer(beefriend, many=True)
+        return Response(serializer.data)
 
     # POST /beefriends/
     def post(self, request):
         serializer = BeefriendSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(beefriender=request.user)
+            serializer.save(beefriend=request.user)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
@@ -181,13 +185,17 @@ class BeefriendList(APIView):
         )
 # for /beefriends/<pk>
 class BeefriendDetail(APIView):
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsBeefriendOrReadOnly
+    ]
 
     def get_object(self, pk):
         try:
-            beefriend = Beefriend.objects.get(pk=pk)
+            beefriend= Beefriend.objects.get(pk=pk)
             self.check_object_permissions(self.request, beefriend)
             return beefriend
-        except Pledge.DoesNotExist:
+        except Beefriend.DoesNotExist:
             raise Http404
 
     def get(self, request, pk):

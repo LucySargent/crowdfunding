@@ -42,7 +42,7 @@ class BeefriendSerializer(serializers.Serializer):
     comment = serializers.CharField(max_length=200)
     # supporter = serializers.CharField(max_length=200)
     project_id = serializers.IntegerField()
-    beefriender = serializers.ReadOnlyField(source='beefriender.id')
+    beefriend = serializers.ReadOnlyField(source='beefriend.id')
     
 
     # this will be called for POST /beefriend to create a new beefriend
