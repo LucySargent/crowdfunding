@@ -12,8 +12,12 @@ from rest_framework import status, permissions
 class CustomUserList(APIView):
 
     def get(self, request):
-        users = CustomUser.objects.all()
-        serializer = CustomUserSerializer(users, many=True) #explicity stating the relationship
+        if self.request.user.is_superuser:
+            customuser = CustomUser.objects.all()
+        else:
+            customuser = CustomUser.objects.filter(username=self.request.user)
+
+        serializer = CustomUserSerializer(customuser, many=True) #explicity stating the relationship
         return Response(serializer.data)
 
     def post(self, request):
@@ -25,10 +29,6 @@ class CustomUserList(APIView):
 
 
 class CustomUserDetail(APIView):
-### DO I NEED THIS?
-    # permission_classes = [
-    #     permissions.IsAuthenticatedOrReadOnly,
-    # ]
 
     def get_object(self, pk):
         try:

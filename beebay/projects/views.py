@@ -5,7 +5,7 @@ from .models import SUB_CHOICES, Beefriend, Project, Pledge
 from .serializers import ProjectSerializer, ProjectDetailSerializer, PledgeSerializer, PledgeDetailSerializer, BeefriendSerializer, BeefriendDetailSerializer
 from django.http import Http404
 from rest_framework import status, permissions
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from rest_framework.decorators import api_view
 
 # for /projects
@@ -85,11 +85,23 @@ class ProjectDetail(APIView):
 # for /pledges/
 class PledgeList(APIView):
 
+    # def get_queryset(self):
+    #     print('Hi')
+    #     print(self.request.user)
+    #     print(self.request.user.is_superuser)
+    #     if self.request.user.is_superuser:
+    #         return Pledge.objects.all()
+    #     return Pledge.objects.filter(user=self.request.user)
+
 # GET /pledges/
     def get(self, request):
+        if self.request.user.is_superuser:
             pledges = Pledge.objects.all()
-            serializer = PledgeSerializer(pledges, many=True)
-            return Response(serializer.data)
+        else:
+            pledges = Pledge.objects.filter(supporter=self.request.user)
+
+        serializer = PledgeSerializer(pledges, many=True)
+        return Response(serializer.data)
 
 # POST /pledges/
     def post(self, request):
@@ -109,7 +121,7 @@ class PledgeList(APIView):
 class PledgeDetail(APIView):
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
+        IsSupporterOrReadOnly
     ]
    
 # for GET /pledges/<pk>
