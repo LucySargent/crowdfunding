@@ -32,6 +32,7 @@ SECRET_KEY = os.environ.get(
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
 
+#allowing everyone to access all domains - wouldn't do this in a real prod app
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 

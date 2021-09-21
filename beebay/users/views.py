@@ -60,5 +60,3 @@ class CustomUserDetail(APIView):
         return Response({"detail": "User deleted"})
 
     
-
-    # {"detail": "User deleted"}

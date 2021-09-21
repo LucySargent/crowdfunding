@@ -7,7 +7,7 @@ class CustomUserSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=200)
     
     def create(self, validated_data):
-        return CustomUser.objects.create(**validated_data)
+        return CustomUser.objects.create_user(**validated_data)
 
 # new code for updating user details - name,email    
     def update(self, instance, validated_data):
