@@ -1,6 +1,6 @@
 **BEEBAY!** 
 
-Beebay is a crowdfunding website linking potential beehive locations, beekeepers and community sponsors to increase the number of bees in Queensland.
+Beebay is a crowdfunding website connecting people who have potential beehive locations, beekeepers and community sponsors to increase the number of bees in Queensland.
 
 Github repo: https://github.com/LucySargent/crowdfunding/
 
