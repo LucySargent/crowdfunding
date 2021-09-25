@@ -30,16 +30,13 @@ Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp
 
 **Added permissions**
 Added restrictions to get/post/put/delete methods. This is work in progress - some are not logical and need changing!
-Project permissions
+
 ![image](https://user-images.githubusercontent.com/86648895/134766847-25528412-680e-4b56-ac02-6350eb4c0d49.png)
 
-Pledge permissions
 ![image](https://user-images.githubusercontent.com/86648895/134766865-2a764ba1-8b66-40d3-9ac9-7140a4092f9b.png)
 
-Beefriend permissions
 ![image](https://user-images.githubusercontent.com/86648895/134766875-8644eb57-b5f0-43f9-87e7-10275778b1bd.png)
 
-User permissions
 ![image](https://user-images.githubusercontent.com/86648895/134766902-608a29b0-d0f1-4d03-bbfd-82517898423d.png)
 
 
