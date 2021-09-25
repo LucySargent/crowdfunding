@@ -9,7 +9,15 @@ class PledgeSerializer(serializers.Serializer):
     supporter = serializers.ReadOnlyField(source='supporter.id')
     project_id = serializers.IntegerField()
 
-    # this will be called for POST /pledges to create a new pledge
+    # this will be called for POST /pledges to create a new pledge. Project owner cannot pledge to own project
+    def validate(self, data):
+        project = Project.objects.get(id=data['project_id'])
+        owner = project.owner
+        current_user = self.context['request'].user
+        if owner == current_user:
+            raise serializers.ValidationError("The owner of the project cannot create a pledge.")
+        return data
+
     def create(self, validated_data):
         return Pledge.objects.create(**validated_data)
 

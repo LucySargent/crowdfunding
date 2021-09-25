@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 
 # for /projects
 class ProjectList(APIView):
-    # this make it so that a user must be logged in to post a project (iow removes the post button from /projects list)
+    # this make it so that a user must be logged in to post a project (removes the post button from /projects list)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 # for GET /projects
@@ -73,9 +73,18 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+       
 
 # delete project
+
     def delete(self, request, pk):
         project = self.get_object(pk)
         project.delete()
@@ -85,27 +94,19 @@ class ProjectDetail(APIView):
 # for /pledges/
 class PledgeList(APIView):
 
-    # def get_queryset(self):
-    #     print('Hi')
-    #     print(self.request.user)
-    #     print(self.request.user.is_superuser)
-    #     if self.request.user.is_superuser:
-    #         return Pledge.objects.all()
-    #     return Pledge.objects.filter(user=self.request.user)
-
-# GET /pledges/
+# GET /pledges/ - superuser can see all pledges, user can only see their own pledges 
     def get(self, request):
         if self.request.user.is_superuser:
             pledges = Pledge.objects.all()
         else:
             pledges = Pledge.objects.filter(supporter=self.request.user)
-
+        
         serializer = PledgeSerializer(pledges, many=True)
         return Response(serializer.data)
 
 # POST /pledges/
     def post(self, request):
-        serializer = PledgeSerializer(data=request.data)
+        serializer = PledgeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save(supporter=request.user)
             return Response(
@@ -119,23 +120,25 @@ class PledgeList(APIView):
 
 # for /pledges/<pk>
 class PledgeDetail(APIView):
+# IsAuthenticatedOrReadOnly means the request is authenticated as a user, or is a read-only request
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
         IsSupporterOrReadOnly
     ]
    
 # for GET /pledges/<pk>
+# will return the pledge detail if request.user is the pledge supporter
     def get_object(self, pk):
         try:
-            pledge = Pledge.objects.get(pk=pk)
+            pledge = Pledge.objects.get(pk=pk,supporter=self.request.user)
             self.check_object_permissions(self.request, pledge)
             return pledge
         except Pledge.DoesNotExist:
-            raise Http404
+            raise Http404     
 
     def get(self, request, pk):
         pledge = self.get_object(pk)
-        serializer = PledgeSerializer(pledge)
+        serializer = PledgeSerializer(pledge, context={'request': request})
         return Response(serializer.data)
 
 # update /pledges/<pk>  

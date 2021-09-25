@@ -22,20 +22,35 @@ class Project(models.Model):
     image = models.URLField()
     date_created = models.DateTimeField()
     min_required = models.IntegerField(default=300) 
+    is_open = models.BooleanField()
 
     @property
     def goal(self):
         return self.beehives * 300
 
+    # @property
+    # def status(self):
+    #     # all_related_pledges = self.pledge_set.objects.all()
+    #     all_related_pledges = Pledge.objects.filter(project=self.id)
+    #     total_pledge_amount = 0
+    #     for pledge in all_related_pledges:
+    #         total_pledge_amount += pledge.amount
+    #     # total_amount = sum(pledge.amount for pledge in all_related_pledges)
+    #     return round(total_pledge_amount/(self.beehives * 300), 2)
+
     @property
     def status(self):
-        # all_related_pledges = self.pledge_set.objects.all()
         all_related_pledges = Pledge.objects.filter(project=self.id)
         total_pledge_amount = 0
+        current_status = 0
         for pledge in all_related_pledges:
             total_pledge_amount += pledge.amount
-        # total_amount = sum(pledge.amount for pledge in all_related_pledges)
-        return round(total_pledge_amount/(self.beehives * 300), 2)
+            current_status = round(total_pledge_amount/(self.beehives * 300), 2)
+        if current_status >= 1:
+            return "closed"
+        return current_status
+
+
 
     @property
     def show_all_categorys(self):
@@ -44,8 +59,6 @@ class Project(models.Model):
         for category in all_categories:
             category_names.append(category.category)
         return category_names
-
-    is_open = models.BooleanField()
 
 
 # CATEGORY
