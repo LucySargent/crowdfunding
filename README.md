@@ -26,9 +26,10 @@ Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp
 3. 'Number of beehives' field added to project model
 4. 'Pledge goal' property added to project model. Calculates the funding goal based on number of beehives * the cost of one beehive ($300). 
 5. 'Status' property added to property model. Shows how much of the pledge goal has been reached. When target has been reached, status shows as "closed".
-6. Limited pledge list view to superuser only
+
 
 **Added permissions**
+Added restrictions to get/post/put/delete methods. This is work in progress - some are not logical and need changing!
 Project permissions
 ![image](https://user-images.githubusercontent.com/86648895/134766847-25528412-680e-4b56-ac02-6350eb4c0d49.png)
 
