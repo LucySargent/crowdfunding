@@ -29,16 +29,21 @@ Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp
 6. Limited pledge list view to superuser only
 
 **Added permissions**
+Project permissions
+![image](https://user-images.githubusercontent.com/86648895/134766847-25528412-680e-4b56-ac02-6350eb4c0d49.png)
 
+Pledge permissions
+![image](https://user-images.githubusercontent.com/86648895/134766865-2a764ba1-8b66-40d3-9ac9-7140a4092f9b.png)
 
+Beefriend permissions
+![image](https://user-images.githubusercontent.com/86648895/134766875-8644eb57-b5f0-43f9-87e7-10275778b1bd.png)
 
+User permissions
+![image](https://user-images.githubusercontent.com/86648895/134766902-608a29b0-d0f1-4d03-bbfd-82517898423d.png)
 
 
 Get all projects:
 ![image](https://user-images.githubusercontent.com/86648895/134754607-d6abe65c-7c1c-49e8-872b-8a37a1c1aaea.png)
-
-
-Get individual project:
 
 
 Instructions to create a new project:
