@@ -27,7 +27,7 @@ Trello: https://trello.com/b/8VDktVuw/beebay
 2. 'Suburb' choice list added to project model
 3. 'Number of beehives' field added to project model
 4. 'Pledge goal' property added to project model. Calculates the funding goal based on number of beehives * the cost of one beehive ($300). 
-5. 'Status' property added to property model. Shows how much of the pledge goal has been reached. When target has been reached, status shows as "closed".
+5. 'Status' property added to project model. Shows how much of the pledge goal has been reached. When target has been reached, status shows as "closed".
 
 
 **Added permissions**
