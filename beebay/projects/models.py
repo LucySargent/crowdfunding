@@ -50,8 +50,6 @@ class Project(models.Model):
             return "closed"
         return current_status
 
-
-
     @property
     def show_all_categorys(self):
         all_categories = self.category_set.all()
