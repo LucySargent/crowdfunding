@@ -44,7 +44,7 @@ Get all projects:
 ![image](https://user-images.githubusercontent.com/86648895/134754607-d6abe65c-7c1c-49e8-872b-8a37a1c1aaea.png)
 
 
-Instructions to create a new project:
+Request body to create a new project:
 
 ```json
 {
@@ -59,6 +59,3 @@ Instructions to create a new project:
 ```
 
 ![image](https://user-images.githubusercontent.com/86648895/134755452-530fd62d-e456-47fa-bd45-13efeca53b2d.png)
-
-
-![image](https://user-images.githubusercontent.com/86648895/134754724-dfaf19c0-6494-4141-95a0-cdae08026d13.png)
