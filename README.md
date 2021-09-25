@@ -31,7 +31,7 @@ Trello: https://trello.com/b/8VDktVuw/beebay
 
 
 **Added permissions**
-Added restrictions to get/post/put/delete methods. This is work in progress - some are not logical and need changing!
+Added permissions to get/post/put/delete methods. This is work in progress - some are not logical and need changing!
 
 ![image](https://user-images.githubusercontent.com/86648895/134766847-25528412-680e-4b56-ac02-6350eb4c0d49.png)
 
