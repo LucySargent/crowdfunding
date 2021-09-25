@@ -1,28 +1,45 @@
-Beebay!
+**BEEBAY!** 
+
+Beebay is a crowdfunding website linking potential beehive locations, beekeepers and community sponsors to increase the number of bees in Queensland.
 
 Github repo: https://github.com/LucySargent/crowdfunding/
+
 Deployed app: https://desolate-waters-38107.herokuapp.com/ 
 
-Beebay is a crowdfunding website for 
+Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp.com/admin/
 
-Baseline features:
 
-Added features:
-1. Ability for a beekeeper to 'beefriend' a project
-2. Update /delete project
-3. Update / delete pledge 
-4. Update / delete a beefriend
-5. Supburb choice list on project model
-6. Number of beehives field on project model
-7. Pledge goal property on project model which calculates the funding goal based on number of beehives * the cost of one beehive ($300). 
-8. Status property on property model. Shows how much of the pledge goal has been reached. When target has been reached, status shows as "closed".
-9. Ability to create, update, delete a user
-10. Permissions to ensure !!!
+**MVP features:** 
+1. Ability to create a user account
+2. User can create a project to be funded
+3. User can “pledge” to a project
+4. Suitable update/delete functionality 
+5. Suitable permissions
+6. Return the relevant status codes for both successful and unsuccessful requests to the API
+7. Handle failed requests gracefully
+8. Use Token Authentication 
 
-Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp.com/admin/ 
 
-Get projects
+**Added features:**
+1. Ability for a user to 'beefriend' a project
+2. 'Suburb' choice list added to project model
+3. 'Number of beehives' field added to project model
+4. 'Pledge goal' property added to project model. Calculates the funding goal based on number of beehives * the cost of one beehive ($300). 
+5. 'Status' property added to property model. Shows how much of the pledge goal has been reached. When target has been reached, status shows as "closed".
+6. Limited pledge list view to superuser only
+
+**Added permissions**
+
+
+
+
+
+Get all projects:
 ![image](https://user-images.githubusercontent.com/86648895/134754607-d6abe65c-7c1c-49e8-872b-8a37a1c1aaea.png)
+
+
+Get individual project:
+
 
 Instructions to create a new project:
 
