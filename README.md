@@ -43,7 +43,8 @@ Added restrictions to get/post/put/delete methods. This is work in progress - so
 Get all projects:
 ![image](https://user-images.githubusercontent.com/86648895/134754607-d6abe65c-7c1c-49e8-872b-8a37a1c1aaea.png)
 
-
+Post a project:
+https://desolate-waters-38107.herokuapp.com/projects/
 Request body to create a new project:
 
 ```json
@@ -59,3 +60,18 @@ Request body to create a new project:
 ```
 
 ![image](https://user-images.githubusercontent.com/86648895/134755452-530fd62d-e456-47fa-bd45-13efeca53b2d.png)
+
+Token authentication:
+![image](https://user-images.githubusercontent.com/86648895/134767232-2cefb499-7aa8-4dc6-ac88-063aad2598fc.png)
+
+Register a new user:
+https://desolate-waters-38107.herokuapp.com/users/
+
+```json
+{
+  "username": "This field is required.",
+  "email": "This field is required.",
+  "password": "This field is required."
+}
+```
+
