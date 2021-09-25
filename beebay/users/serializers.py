@@ -11,16 +11,6 @@ class CustomUserSerializer(serializers.Serializer):
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
 
-#trying to limit the user from seeing userdetails that are not their own
-    # def validate(self, data):
-    #check that the user id is the logged in user
-    #     print('DATA',data)
-        # user = CustomUser.objects.get(id=data['customuser_id'])
-        # id = user.id
-        # current_user = self.context['request'].user
-        # if id == current_user:
-        #     raise serializers.ValidationError("NOPE")
-        # return data
 
 # new code for updating user details - name,email    
     def update(self, instance, validated_data):
