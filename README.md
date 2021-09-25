@@ -56,7 +56,7 @@ Instructions to create a new project:
   "is_open": "This field is required.",
   "date_created": "This field is required."
 }
-
+```
 
 ![image](https://user-images.githubusercontent.com/86648895/134755452-530fd62d-e456-47fa-bd45-13efeca53b2d.png)
 
