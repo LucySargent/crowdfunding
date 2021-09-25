@@ -8,6 +8,8 @@ Deployed app: https://desolate-waters-38107.herokuapp.com/
 
 Admin site can be accessed by superuser: https://desolate-waters-38107.herokuapp.com/admin/
 
+Trello: https://trello.com/b/8VDktVuw/beebay
+
 
 **MVP features:** 
 1. Ability to create a user account
@@ -74,4 +76,5 @@ https://desolate-waters-38107.herokuapp.com/users/
   "password": "This field is required."
 }
 ```
+Issue - password not being encrypted.
 
